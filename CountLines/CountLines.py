@@ -10,10 +10,12 @@ class CountLinesCommand(sublime_plugin.TextCommand):
         for folder in project_folders:
             for root, dirs, files in os.walk(folder):
                 for file in files:
-                    if file.endswith(('.c', '.cpp', '.h', '.hpp','.py','.java','.asm')):
+                    if file.endswith(('.c', '.cpp', '.h', '.hpp','.py','.java','.asm', '.js', '.html', '.css')):
                         filepath = os.path.join(root, file)
                         with open(filepath, 'r', encoding='utf-8') as f:
-                            line_count += len(f.readlines())
+                            for line in f.readlines():
+                                if(len(line.strip()) > 0):
+                                    line_count += 1
 
         sublime.message_dialog("Total code lines in project: {}".format(line_count))
 
